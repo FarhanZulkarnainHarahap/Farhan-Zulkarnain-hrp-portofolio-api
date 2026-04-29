@@ -1,8 +1,8 @@
+import dotenv from 'dotenv';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import dotenv from 'dotenv';
-
+                
 // Import routes
 import userRoutes from './routers/userRoutes';
 import skillRoutes from './routers/skillRoutes';
