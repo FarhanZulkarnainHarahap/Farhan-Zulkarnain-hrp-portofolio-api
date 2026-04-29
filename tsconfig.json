@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    // Target & Module
+    "target": "ESNext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["ES2022"],
+    
+    // Output
+    "outDir": "./dist",
+    "rootDir": ".",
+    
+    // Module Resolution
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    
+    // 🔥 INI YANG PENTING - Tambahkan types untuk Node
+    "types": ["node"],
+    
+    // Path Aliases
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    
+    // Strictness (opsional)
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  
+  // Include file config di root
+  "include": [
+    "src/**/*",
+    "*.config.ts",      // Tambahkan ini untuk prisma.config.ts
+    "*.config.js"
+  ],
+  
+  // Exclude
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
