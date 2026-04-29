@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// ========== USER (untuk login) ==========
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  password  String // Hashed password
+  name      String
+  avatar    String?
+  role      Role      @default(ADMIN) // admin, editor
+  isActive  Boolean   @default(true)
+  lastLogin DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// ========== SKILLS ==========
+enum SkillCategory {
+  FRONTEND
+  BACKEND
+  TOOLS
+}
+
+model Skill {
+  id        String        @id @default(uuid())
+  name      String
+  iconName  String // Contoh: "SiNextdotjs"
+  category  SkillCategory @default(FRONTEND) // Menggunakan enum
+  createdAt DateTime      @default(now())
+}
+
+// ========== EXPERIENCES ==========
+model Experience {
+  id           String    @id @default(uuid())
+  title        String // "Full Stack Developer"
+  company      String // "Tech Company"
+  location     String?
+  startDate    DateTime
+  endDate      DateTime?
+  current      Boolean   @default(false)
+  description  String?
+  technologies String[] // ["React", "Node.js"]
+  sortOrder    Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+// ========== PORTFOLIO / PROJECTS ==========
+model Portfolio {
+  id          String   @id @default(uuid())
+  title       String
+  description String   @db.Text
+  imageUrl    String
+  demoUrl     String?
+  repoUrl     String?
+  createdAt   DateTime @default(now())
+}
+
+// ========== DOCUMENTS ==========
+model Document {
+  id        String   @id @default(uuid())
+  name      String
+  fileUrl   String
+  category  String
+  size      Int // Simpan ukuran dalam bytes
+  createdAt DateTime @default(now())
+}
+
+// ========== CONTACT ==========
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+}
