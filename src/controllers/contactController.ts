@@ -2,7 +2,7 @@ import "dotenv/config";
 import { Request, Response } from 'express';
 import { prisma } from '../configs/prisma';
 import { Resend } from "resend";
-import { contactEmailTemplate } from '@/templates/contactEmail';
+import { contactEmailTemplate } from '../templates/contactEmail.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
