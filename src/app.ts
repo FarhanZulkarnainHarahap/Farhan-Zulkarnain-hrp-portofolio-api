@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import express, { Request, Response } from 'express';
+import express, { Request, Response, Application } from "express";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
                 
@@ -15,7 +15,7 @@ import authRoutes from './routers/authRoute';
 
 dotenv.config();
 
-const app = express();
+const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
