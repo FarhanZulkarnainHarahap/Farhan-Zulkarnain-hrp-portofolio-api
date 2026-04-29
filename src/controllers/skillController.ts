@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../configs/prisma';
-import { SkillCategory } from '../../generated/prisma/enums';
+import { SkillCategory } from '../../prisma/generated/prisma/client';
+
 
 // --- CREATE SKILL ---
 export async function createSkill(req: Request, res: Response): Promise<void> {
