@@ -82,14 +82,14 @@ export async function login(req: Request, res: Response) {
 
     // 5. Kirim Cookie ke Browser
     res.cookie("accessToken", accesstoken, {
-      httpOnly: true, // Tidak bisa diakses via JavaScript (Aman dari XSS)
-      secure: process.env.NODE_ENV === "production", // Wajib HTTPS jika di Production
-      // Jika di localhost gunakan 'lax', jika di production (beda domain) gunakan 'none'
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      path: "/", 
-      // maxAge dalam milidetik (1 hari = 24 * 60 * 60 * 1000)
-      maxAge: 24 * 60 * 60 * 1000, 
-    });
+  httpOnly: true,
+  // Jika backend di Vercel, ini WAJIB true karena Vercel menggunakan HTTPS
+  secure: true, 
+  // WAJIB 'none' agar cookie bisa terkirim dari localhost:3000 ke domain-backend.vercel.app
+  sameSite: "none", 
+  path: "/",
+  maxAge: 24 * 60 * 60 * 1000,
+});
 
     // 6. Response berhasil (Kirim data user tanpa password)
     return res.status(200).json({ 
