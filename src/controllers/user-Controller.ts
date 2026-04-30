@@ -92,7 +92,7 @@ export async function login(req: Request, res: Response) {
 });
 
     // 6. Response berhasil (Kirim data user tanpa password)
-    return res.status(200).json({ 
+     res.status(200).json({ 
       success: true,
       message: "Login Berhasil",
       user: {
