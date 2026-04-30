@@ -38,6 +38,10 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"]
 }));
+// 2. PARSER (Wajib SEBELUM rute)
+app.use(express.json()); // <--- Penyebab utama req.body undefined jika ini terlewat
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
