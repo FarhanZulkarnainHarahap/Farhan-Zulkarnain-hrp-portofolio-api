@@ -32,6 +32,9 @@ export async function register(req: Request, res: Response) {
 
 export async function login(req: Request, res: Response) {
   try {
+     if (!req.body) {
+    return res.status(400).json({ error: "Request body kosong!" });
+  }
     const { email, password } = req.body;
 
     // 1. Validasi input
