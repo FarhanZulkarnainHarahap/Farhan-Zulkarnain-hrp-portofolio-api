@@ -18,26 +18,30 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
-// Middleware
 const allowedOrigins = [
   process.env.FRONTEND_URL_DEVELOPMENT,
   process.env.FRONTEND_URL_PRODUCTION,
-  'http://localhost:3000' // Tambahkan hardcode untuk testing
-].filter(Boolean) as string[]; // Menghapus nilai undefined/null
+  'http://localhost:3000',
+  'https://vercel.app' // Hardcode langsung untuk memastikan tembus
+].filter(Boolean) as string[];
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Izinkan jika tidak ada origin (seperti Postman) atau jika ada di daftar
+    // Tambahkan log untuk debug di Vercel Logs
+    console.log("Request Origin:", origin); 
+    
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
     }
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"]
+  // Tambahkan 'Cookie' dan 'X-Requested-With' di allowedHeaders
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Cookie"]
 }));
+
 // 2. PARSER (Wajib SEBELUM rute)
 app.use(express.json()); // <--- Penyebab utama req.body undefined jika ini terlewat
 app.use(express.urlencoded({ extended: true }));
