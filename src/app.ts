@@ -20,12 +20,14 @@ const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  // Jangan gunakan tanda miring '/' di akhir URL
+  origin: [process.env.FRONTEND_URL_DEVELOPMENT as string, process.env.FRONTEND_URL_PRODUCTION as string],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
 
+// Tambahkan rute OPTIONS untuk Preflight Request browser
+app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
 
