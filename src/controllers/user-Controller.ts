@@ -89,8 +89,7 @@ export async function login(req: Request, res: Response) {
   // Jika backend di Vercel, ini WAJIB true karena Vercel menggunakan HTTPS
   secure: true, 
   // WAJIB 'none' agar cookie bisa terkirim dari localhost:3000 ke domain-backend.vercel.app
-  sameSite: "none", 
-  path: "/",
+  sameSite: "none",
   maxAge: 24 * 60 * 60 * 1000,
 });
 
