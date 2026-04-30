@@ -19,18 +19,25 @@ const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
+const allowedOrigins = [
+  process.env.FRONTEND_URL_DEVELOPMENT,
+  process.env.FRONTEND_URL_PRODUCTION,
+  'http://localhost:3000' // Tambahkan hardcode untuk testing
+].filter(Boolean) as string[]; // Menghapus nilai undefined/null
+
 app.use(cors({
-  // Jangan gunakan tanda miring '/' di akhir URL
-  origin: [process.env.FRONTEND_URL_DEVELOPMENT as string, process.env.FRONTEND_URL_PRODUCTION as string],
+  origin: (origin, callback) => {
+    // Izinkan jika tidak ada origin (seperti Postman) atau jika ada di daftar
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"]
 }));
-
-// Tambahkan rute OPTIONS untuk Preflight Request browser
-app.options("*", cors());
-app.use(express.json());
-app.use(cookieParser());
-
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
