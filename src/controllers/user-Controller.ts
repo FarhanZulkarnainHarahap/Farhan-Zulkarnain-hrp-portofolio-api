@@ -90,6 +90,7 @@ export async function login(req: Request, res: Response) {
   secure: true, 
   // WAJIB 'none' agar cookie bisa terkirim dari localhost:3000 ke domain-backend.vercel.app
   sameSite: "none",
+   path: "/",
   maxAge: 24 * 60 * 60 * 1000,
 });
 
