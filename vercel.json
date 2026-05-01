@@ -11,7 +11,9 @@
       ]
     }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index.ts" }
+  ],
   "builds": [
     {
       "src": "api/index.ts",
