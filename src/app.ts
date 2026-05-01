@@ -19,27 +19,14 @@ const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 
-const allowedOrigins = [
-  'https://www.farhanzulkarnainhrp.com',
-  'https://farhanzulkarnainhrp.com',
-  'http://localhost:3000'
-];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
-}));
-
-// Jika ingin menangani preflight (OPTIONS), gunakan rute regex yang aman bagi Vercel
-app.options('(.*)', cors()); 
+app.use(
+  cors({
+    origin: `${process.env.FRONTEND_URL_DEVELOPMENT}`|| `${process.env.FRONTEND_URL_PRODUCTION}`, // Menambahkan localhost untuk development
+    methods: ["GET", "POST", "PUT", "DELETE"], // Atur metode HTTP yang diizinkan
+    credentials: true, // Mengizinkan pengiriman cookies dan headers
+  })
+);
 
 
 // 2. PARSER (Wajib SEBELUM rute)
@@ -229,6 +216,8 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-app.listen(PORT, () => console.info(` 🚀 Server is listening on port:${PORT}`));
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => console.info(` 🚀 Server is listening on port:${PORT}`));
+}
 
 export default app;
