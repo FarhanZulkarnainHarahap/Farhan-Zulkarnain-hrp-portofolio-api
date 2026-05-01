@@ -21,14 +21,21 @@ const PORT = process.env.PORT || 8000;
 // Middleware
 const allowedOrigins = [
   'https://farhanzulkarnainhrp.com',
-  'https://farhanzulkarnainhrp.com',
-  'http://localhost:3000'
+  'https://www.farhanzulkarnainhrp.com', // Tambahkan yang pakai www
+  'http://localhost:3000'                // Tambahkan ini juga supaya di lokal tetap bisa jalan
 ];
 
 // 1. CORS
 app.use(
   cors({
-    origin: allowedOrigins, // Gunakan array yang sudah dibuat di atas
+    origin: function (origin, callback) {
+      // Izinkan jika origin ada di daftar atau jika tidak ada origin (seperti aplikasi mobile/postman)
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
