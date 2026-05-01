@@ -86,11 +86,12 @@ export async function login(req: Request, res: Response) {
     // 5. Kirim Cookie ke Browser
     res.cookie("accessToken", accesstoken, {
   httpOnly: true,
-  // Jika backend di Vercel, ini WAJIB true karena Vercel menggunakan HTTPS
-  secure: true, 
-  // WAJIB 'none' agar cookie bisa terkirim dari localhost:3000 ke domain-backend.vercel.app
-  sameSite: "none",
-   path: "/",
+  secure: true,      // WAJIB true karena sudah online (HTTPS)
+  sameSite: "none",  // WAJIB none agar bisa dibaca antar domain/subdomain
+  path: "/",
+  // Ganti 'domain-anda.com' dengan domain utama Anda tanpa 'www' atau 'https'
+  // Contoh: '.farhanzulkarnainhrp.com' (titik di depan artinya semua subdomain bisa akses)
+  domain: ".farhanzulkarnainhrp.com", 
   maxAge: 24 * 60 * 60 * 1000,
 });
 
