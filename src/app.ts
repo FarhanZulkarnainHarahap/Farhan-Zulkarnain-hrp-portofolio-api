@@ -37,7 +37,9 @@ app.use(
 
 // Tambahkan ini tepat di bawah app.use(cors(...))
 // UBAH MENJADI:
-app.options('(.*)', cors());
+// Perbaikan:
+app.options('*', cors());
+
 
 
 // 2. PARSER (Wajib SEBELUM rute)
