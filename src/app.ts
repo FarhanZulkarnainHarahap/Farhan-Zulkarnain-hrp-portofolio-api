@@ -21,8 +21,7 @@ const PORT = process.env.PORT || 8000;
 // Middleware
 const allowedOrigins = [
   'https://farhanzulkarnainhrp.com',
-  'https://www.farhanzulkarnainhrp.com', // Tambahkan yang pakai www
-  'http://localhost:3000'                // Tambahkan ini juga supaya di lokal tetap bisa jalan
+  'https://www.farhanzulkarnainhrp.com', // Tambahkan yang pakai www                // Tambahkan ini juga supaya di lokal tetap bisa jalan
 ];
 
 // 1. CORS
