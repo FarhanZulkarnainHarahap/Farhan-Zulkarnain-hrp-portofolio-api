@@ -18,15 +18,26 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
-
+// Middleware
+const allowedOrigins = [
+  process.env.FRONTEND_URL_DEVELOPMENT,
+  process.env.FRONTEND_URL_PRODUCTION,
+  'http://localhost:3000',
+  'https://farhanzulkarnainhrp.vercel.app' // Hardcode domain ini untuk memastikan 100% tembus
+].filter(Boolean) as string[];
 
 app.use(
   cors({
-    origin: `${process.env.FRONTEND_URL_DEVELOPMENT}`|| `${process.env.FRONTEND_URL_PRODUCTION}`, // Menambahkan localhost untuk development
+    origin: `${process.env.FRONTEND_URL_DEVELOPMENT}` ||`${process.env.FRONTEND_URL_PRODUCTION}`, // Menambahkan localhost untuk development
     methods: ["GET", "POST", "PUT", "DELETE"], // Atur metode HTTP yang diizinkan
     credentials: true, // Mengizinkan pengiriman cookies dan headers
   })
 );
+
+
+// Tambahkan ini tepat di bawah app.use(cors(...))
+// UBAH MENJADI:
+app.options('(.*)', cors());
 
 
 // 2. PARSER (Wajib SEBELUM rute)
@@ -216,8 +227,6 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => console.info(` 🚀 Server is listening on port:${PORT}`));
-}
+app.listen(PORT, () => console.info(` 🚀 Server is listening on port:${PORT}`));
 
 export default app;
