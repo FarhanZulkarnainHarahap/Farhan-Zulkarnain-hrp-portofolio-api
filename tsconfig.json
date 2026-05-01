@@ -1,40 +1,41 @@
 {
   "compilerOptions": {
-    /* Target & Module */
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": ["ES2022"],
+    "lib": ["ESNext"],
     
     /* Output & Structure */
     "outDir": "./dist",
     "rootDir": ".",
     
-    /* Module Resolution */
+    /* Ganti baseUrl dengan ignoreDeprecations jika tetap ingin menggunakannya */
+    /* Atau biarkan kosong karena NodeNext menangani resolusi modul secara berbeda */
+    "ignoreDeprecations": "6.0", 
+    
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     
-    /* Types */
     "types": ["node"],
     
-    /* Path Aliases (Tanpa baseUrl) */
     "paths": {
       "@/*": ["./src/*"],
+      "@api/*": ["./api/*"],
       "@generated/*": ["./generated/*"]
     },
     
-    /* Strictness */
     "strict": true
   },
   
   "include": [
     "src/**/*",
+    "api/**/*", 
     "generated/**/*",
     "*.config.ts",
-    "*.config.js"
+    "app.ts"
   ],
   
   "exclude": [

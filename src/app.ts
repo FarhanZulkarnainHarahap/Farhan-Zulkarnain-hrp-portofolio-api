@@ -26,11 +26,12 @@ const allowedOrigins = [
   'https://farhanzulkarnainhrp.vercel.app' // Hardcode domain ini untuk memastikan 100% tembus
 ].filter(Boolean) as string[];
 
+// 1. CORS
 app.use(
   cors({
-    origin: `${process.env.FRONTEND_URL_DEVELOPMENT}` ||`${process.env.FRONTEND_URL_PRODUCTION}`, // Menambahkan localhost untuk development
-    methods: ["GET", "POST", "PUT", "DELETE"], // Atur metode HTTP yang diizinkan
-    credentials: true, // Mengizinkan pengiriman cookies dan headers
+    origin: allowedOrigins, // Gunakan array yang sudah dibuat di atas
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
 
