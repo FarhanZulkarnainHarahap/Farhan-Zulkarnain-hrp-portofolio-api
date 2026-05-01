@@ -20,11 +20,10 @@ const PORT = process.env.PORT || 8000;
 
 // Middleware
 const allowedOrigins = [
-  process.env.FRONTEND_URL_DEVELOPMENT,
-  process.env.FRONTEND_URL_PRODUCTION,
-  'http://localhost:3000',
-  'https://farhanzulkarnainhrp.vercel.app' // Hardcode domain ini untuk memastikan 100% tembus
-].filter(Boolean) as string[];
+  'https://farhanzulkarnainhrp.com',
+  'https://farhanzulkarnainhrp.com',
+  'http://localhost:3000'
+];
 
 // 1. CORS
 app.use(
