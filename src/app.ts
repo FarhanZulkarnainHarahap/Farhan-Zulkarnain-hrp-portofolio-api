@@ -43,7 +43,9 @@ app.use(cors({
 }));
 
 // Tambahkan ini tepat di bawah app.use(cors(...))
-app.options('*', cors());
+// UBAH MENJADI:
+app.options('(.*)', cors());
+
 
 // 2. PARSER (Wajib SEBELUM rute)
 app.use(express.json()); // <--- Penyebab utama req.body undefined jika ini terlewat
