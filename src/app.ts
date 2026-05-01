@@ -30,13 +30,12 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: allowedOrigins, // Gunakan array yang sudah dibuat di atas
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
 
-app.options('(.*)', cors());
 
 
 
