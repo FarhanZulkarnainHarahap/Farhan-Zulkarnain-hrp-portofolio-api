@@ -205,7 +205,8 @@ exports.Role = exports.$Enums.Role = {
 exports.SkillCategory = exports.$Enums.SkillCategory = {
   FRONTEND: 'FRONTEND',
   BACKEND: 'BACKEND',
-  TOOLS: 'TOOLS'
+  TOOLS: 'TOOLS',
+  OTHERS: 'OTHERS'
 };
 
 exports.Prisma.ModelName = {

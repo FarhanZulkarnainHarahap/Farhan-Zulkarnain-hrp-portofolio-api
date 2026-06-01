@@ -59,7 +59,8 @@ export type Role = (typeof Role)[keyof typeof Role]
 export const SkillCategory: {
   FRONTEND: 'FRONTEND',
   BACKEND: 'BACKEND',
-  TOOLS: 'TOOLS'
+  TOOLS: 'TOOLS',
+  OTHERS: 'OTHERS'
 };
 
 export type SkillCategory = (typeof SkillCategory)[keyof typeof SkillCategory]

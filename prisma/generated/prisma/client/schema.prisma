@@ -36,6 +36,7 @@ enum SkillCategory {
   FRONTEND
   BACKEND
   TOOLS
+  OTHERS
 }
 
 model Skill {
