@@ -3,6 +3,14 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { prisma } from '../configs/prisma';
 
+const accessTokenCookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'none' as const,
+  path: '/',
+  domain: '.farhanzulkarnainhrp.com',
+};
+
 export async function register(req: Request, res: Response) {
   try {
     const { email, password, name } = req.body;
@@ -85,15 +93,9 @@ export async function login(req: Request, res: Response) {
 
     // 5. Kirim Cookie ke Browser
     res.cookie("accessToken", accesstoken, {
-  httpOnly: true,
-  secure: true,      // WAJIB true karena sudah online (HTTPS)
-  sameSite: "none",  // WAJIB none agar bisa dibaca antar domain/subdomain
-  path: "/",
-  // Ganti 'domain-anda.com' dengan domain utama Anda tanpa 'www' atau 'https'
-  // Contoh: '.farhanzulkarnainhrp.com' (titik di depan artinya semua subdomain bisa akses)
-  domain: ".farhanzulkarnainhrp.com", 
-  maxAge: 24 * 60 * 60 * 1000,
-});
+      ...accessTokenCookieOptions,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     // 6. Response berhasil (Kirim data user tanpa password)
      res.status(200).json({ 
@@ -118,7 +120,7 @@ export async function login(req: Request, res: Response) {
 }
 
 export async function logout(req: Request, res: Response) {
-  res.clearCookie('accessToken');
+  res.clearCookie('accessToken', accessTokenCookieOptions);
   res.json({ success: true, message: 'Logged out successfully' });
 }
 
