@@ -19,28 +19,32 @@ const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-const allowedOrigins = (
-  process.env.FRONTEND_URL_PRODUCTION ||
-  'https://farhanzulkarnainhrp.com,https://www.farhanzulkarnainhrp.com'
-)
-  .split(',')
-  .map((origin) => origin.trim().replace(/\/$/, ''))
+const allowedOrigins = (process.env.FRONTEND_URL ?? "http://localhost:3000")
+  .split(",")
+  .map((origin) => origin.trim().replace(/\/$/, ""))
   .filter(Boolean);
 
 // 1. CORS
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Izinkan jika origin ada di daftar atau jika tidak ada origin (seperti aplikasi mobile/postman)
-      const normalizedOrigin = origin?.replace(/\/$/, '');
-      if (!normalizedOrigin || allowedOrigins.includes(normalizedOrigin)) {
+    origin(origin, callback) {
+      const normalizedOrigin = origin?.replace(/\/$/, "");
+      const isPortfolioDomain =
+        normalizedOrigin === "https://farhanzulkarnainhrp.com" ||
+        normalizedOrigin === "https://www.farhanzulkarnainhrp.com" ||
+        normalizedOrigin?.endsWith(".farhanzulkarnainhrp.com");
+
+      if (!normalizedOrigin || allowedOrigins.includes(normalizedOrigin) || isPortfolioDomain) {
         callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
+        return;
       }
+
+      callback(new Error("Not allowed by CORS"));
     },
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-CALLBACK-TOKEN"],
+    optionsSuccessStatus: 204,
   })
 );
 
