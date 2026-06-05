@@ -19,17 +19,21 @@ const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-const allowedOrigins = [
-  'https://farhanzulkarnainhrp.com',
-  'https://www.farhanzulkarnainhrp.com', // Tambahkan yang pakai www                // Tambahkan ini juga supaya di lokal tetap bisa jalan
-];
+const allowedOrigins = (
+  process.env.FRONTEND_URL_PRODUCTION ||
+  'https://farhanzulkarnainhrp.com,https://www.farhanzulkarnainhrp.com'
+)
+  .split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean);
 
 // 1. CORS
 app.use(
   cors({
     origin: function (origin, callback) {
       // Izinkan jika origin ada di daftar atau jika tidak ada origin (seperti aplikasi mobile/postman)
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      const normalizedOrigin = origin?.replace(/\/$/, '');
+      if (!normalizedOrigin || allowedOrigins.includes(normalizedOrigin)) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));

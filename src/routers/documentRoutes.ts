@@ -1,16 +1,13 @@
-import express from 'express';
+import { Router } from 'express';
 import * as doc from '../controllers/documentController';
 import { verifyToken, roleGuard } from '../middleware/auth-middleware';
 import { docUpload } from '../middleware/upload-middlware';
 
-const router = express.Router();
+const router = Router();
 
-router
-  .route('/')
-  .get(doc.getAllDocuments)
-  .post(verifyToken, roleGuard('ADMIN'), docUpload.single('file'), doc.createDocument);
-
-router.route('/all').get(doc.getDocumentsALL);
-router.route('/:id').delete(doc.deleteDocument);
+router.get('/', doc.getAllDocuments);
+router.get('/all', doc.getDocumentsALL);
+router.post('/', verifyToken, roleGuard('ADMIN'), docUpload.single('file'), doc.createDocument);
+router.delete('/:id', doc.deleteDocument);
 
 export default router;
