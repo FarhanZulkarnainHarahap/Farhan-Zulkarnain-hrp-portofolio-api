@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express, { Request, Response, Application, NextFunction } from "express";
-import cors from 'cors';
+import cors, { CorsOptions } from 'cors';
 import cookieParser from 'cookie-parser';
 import multer from 'multer';
                 
@@ -21,9 +21,29 @@ const PORT = process.env.PORT || 8000;
 
 app.disable("etag");
 
-// 1. CORS
-app.use(cors({
-  origin: process.env.FRONTEND_URL_PRODUCTION,
+const allowedOrigins = new Set(
+  [
+    process.env.FRONTEND_URL_DEVELOPMENT,
+    process.env.FRONTEND_URL_PRODUCTION,
+    "http://localhost:3000",
+    "http://localhost:3100",
+    "https://farhanzulkarnainhrp.com",
+    "https://www.farhanzulkarnainhrp.com",
+  ]
+    .flatMap((value) => value?.split(",") ?? [])
+    .map((origin) => origin.trim().replace(/\/$/, ""))
+    .filter(Boolean)
+);
+
+const corsOptions: CorsOptions = {
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.has(origin.replace(/\/$/, ""))) {
+      callback(null, true);
+      return;
+    }
+
+    callback(null, false);
+  },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: [
     "Authorization",
@@ -33,7 +53,11 @@ app.use(cors({
     "X-CSRF-Token",
   ],
   credentials: true,
-}));
+};
+
+// 1. CORS
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 app.use("/api", (_req, res, next) => {
   res.header("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
