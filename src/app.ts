@@ -18,19 +18,9 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
-// Middleware
-const corsOptions: cors.CorsOptions = {
-  origin(origin, callback) {
-    if (
-      !origin ||
-      origin.replace(/\/$/, "") === process.env.FRONTEND_URL_PRODUCTION?.replace(/\/$/, "")
-    ) {
-      callback(null, true);
-      return;
-    }
-
-    callback(null, false);
-  },
+// 1. CORS
+app.use(cors({
+  origin: process.env.FRONTEND_URL_PRODUCTION,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: [
     "Authorization",
@@ -40,34 +30,7 @@ const corsOptions: cors.CorsOptions = {
     "X-CSRF-Token",
   ],
   credentials: true,
-};
-
-// 1. CORS
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-
-  if (
-    origin &&
-    origin.replace(/\/$/, "") === process.env.FRONTEND_URL_PRODUCTION?.replace(/\/$/, "")
-  ) {
-    res.header("Access-Control-Allow-Origin", origin);
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
-    res.header(
-      "Access-Control-Allow-Headers",
-      req.headers["access-control-request-headers"] || "Authorization,Content-Type,Accept,X-Requested-With,X-CSRF-Token"
-    );
-  }
-
-  if (req.method === "OPTIONS") {
-    res.sendStatus(204);
-    return;
-  }
-
-  next();
-});
-
-app.use(cors(corsOptions));
+}));
 
 
 // 2. PARSER (Wajib SEBELUM rute)
