@@ -5588,6 +5588,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     fileUrl: string | null
+    previewUrl: string | null
     category: string | null
     size: number | null
     createdAt: Date | null
@@ -5597,6 +5598,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     fileUrl: string | null
+    previewUrl: string | null
     category: string | null
     size: number | null
     createdAt: Date | null
@@ -5606,6 +5608,7 @@ export namespace Prisma {
     id: number
     name: number
     fileUrl: number
+    previewUrl: number
     category: number
     size: number
     createdAt: number
@@ -5625,6 +5628,7 @@ export namespace Prisma {
     id?: true
     name?: true
     fileUrl?: true
+    previewUrl?: true
     category?: true
     size?: true
     createdAt?: true
@@ -5634,6 +5638,7 @@ export namespace Prisma {
     id?: true
     name?: true
     fileUrl?: true
+    previewUrl?: true
     category?: true
     size?: true
     createdAt?: true
@@ -5643,6 +5648,7 @@ export namespace Prisma {
     id?: true
     name?: true
     fileUrl?: true
+    previewUrl?: true
     category?: true
     size?: true
     createdAt?: true
@@ -5739,6 +5745,7 @@ export namespace Prisma {
     id: string
     name: string
     fileUrl: string
+    previewUrl: string | null
     category: string
     size: number
     createdAt: Date
@@ -5767,6 +5774,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     fileUrl?: boolean
+    previewUrl?: boolean
     category?: boolean
     size?: boolean
     createdAt?: boolean
@@ -5776,6 +5784,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     fileUrl?: boolean
+    previewUrl?: boolean
     category?: boolean
     size?: boolean
     createdAt?: boolean
@@ -5785,6 +5794,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     fileUrl?: boolean
+    previewUrl?: boolean
     category?: boolean
     size?: boolean
     createdAt?: boolean
@@ -5794,12 +5804,13 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     fileUrl?: boolean
+    previewUrl?: boolean
     category?: boolean
     size?: boolean
     createdAt?: boolean
   }
 
-  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "fileUrl" | "category" | "size" | "createdAt", ExtArgs["result"]["document"]>
+  export type DocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "fileUrl" | "previewUrl" | "category" | "size" | "createdAt", ExtArgs["result"]["document"]>
 
   export type $DocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Document"
@@ -5808,6 +5819,7 @@ export namespace Prisma {
       id: string
       name: string
       fileUrl: string
+      previewUrl: string | null
       category: string
       size: number
       createdAt: Date
@@ -6237,6 +6249,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Document", 'String'>
     readonly name: FieldRef<"Document", 'String'>
     readonly fileUrl: FieldRef<"Document", 'String'>
+    readonly previewUrl: FieldRef<"Document", 'String'>
     readonly category: FieldRef<"Document", 'String'>
     readonly size: FieldRef<"Document", 'Int'>
     readonly createdAt: FieldRef<"Document", 'DateTime'>
@@ -7687,6 +7700,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     fileUrl: 'fileUrl',
+    previewUrl: 'previewUrl',
     category: 'category',
     size: 'size',
     createdAt: 'createdAt'
@@ -8116,6 +8130,7 @@ export namespace Prisma {
     id?: StringFilter<"Document"> | string
     name?: StringFilter<"Document"> | string
     fileUrl?: StringFilter<"Document"> | string
+    previewUrl?: StringNullableFilter<"Document"> | string | null
     category?: StringFilter<"Document"> | string
     size?: IntFilter<"Document"> | number
     createdAt?: DateTimeFilter<"Document"> | Date | string
@@ -8125,6 +8140,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     fileUrl?: SortOrder
+    previewUrl?: SortOrderInput | SortOrder
     category?: SortOrder
     size?: SortOrder
     createdAt?: SortOrder
@@ -8137,6 +8153,7 @@ export namespace Prisma {
     NOT?: DocumentWhereInput | DocumentWhereInput[]
     name?: StringFilter<"Document"> | string
     fileUrl?: StringFilter<"Document"> | string
+    previewUrl?: StringNullableFilter<"Document"> | string | null
     category?: StringFilter<"Document"> | string
     size?: IntFilter<"Document"> | number
     createdAt?: DateTimeFilter<"Document"> | Date | string
@@ -8146,6 +8163,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     fileUrl?: SortOrder
+    previewUrl?: SortOrderInput | SortOrder
     category?: SortOrder
     size?: SortOrder
     createdAt?: SortOrder
@@ -8163,6 +8181,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Document"> | string
     name?: StringWithAggregatesFilter<"Document"> | string
     fileUrl?: StringWithAggregatesFilter<"Document"> | string
+    previewUrl?: StringNullableWithAggregatesFilter<"Document"> | string | null
     category?: StringWithAggregatesFilter<"Document"> | string
     size?: IntWithAggregatesFilter<"Document"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Document"> | Date | string
@@ -8546,6 +8565,7 @@ export namespace Prisma {
     id?: string
     name: string
     fileUrl: string
+    previewUrl?: string | null
     category: string
     size: number
     createdAt?: Date | string
@@ -8555,6 +8575,7 @@ export namespace Prisma {
     id?: string
     name: string
     fileUrl: string
+    previewUrl?: string | null
     category: string
     size: number
     createdAt?: Date | string
@@ -8564,6 +8585,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    previewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8573,6 +8595,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    previewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8582,6 +8605,7 @@ export namespace Prisma {
     id?: string
     name: string
     fileUrl: string
+    previewUrl?: string | null
     category: string
     size: number
     createdAt?: Date | string
@@ -8591,6 +8615,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    previewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8600,6 +8625,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    previewUrl?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
     size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9012,6 +9038,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     fileUrl?: SortOrder
+    previewUrl?: SortOrder
     category?: SortOrder
     size?: SortOrder
     createdAt?: SortOrder
@@ -9025,6 +9052,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     fileUrl?: SortOrder
+    previewUrl?: SortOrder
     category?: SortOrder
     size?: SortOrder
     createdAt?: SortOrder
@@ -9034,6 +9062,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     fileUrl?: SortOrder
+    previewUrl?: SortOrder
     category?: SortOrder
     size?: SortOrder
     createdAt?: SortOrder

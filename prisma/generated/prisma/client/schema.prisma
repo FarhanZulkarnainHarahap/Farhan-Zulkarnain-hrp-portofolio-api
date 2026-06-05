@@ -76,12 +76,13 @@ model Portfolio {
 
 // ========== DOCUMENTS ==========
 model Document {
-  id        String   @id @default(uuid())
-  name      String
-  fileUrl   String
-  category  String
-  size      Int // Simpan ukuran dalam bytes
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  name       String
+  fileUrl    String
+  previewUrl String?
+  category   String
+  size       Int // Simpan ukuran dalam bytes
+  createdAt  DateTime @default(now())
 }
 
 // ========== CONTACT ==========
