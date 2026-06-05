@@ -18,6 +18,8 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
+app.disable("etag");
+
 // 1. CORS
 app.use(cors({
   origin: process.env.FRONTEND_URL_PRODUCTION?.replace("https://www.", "https://"),
@@ -31,6 +33,13 @@ app.use(cors({
   ],
   credentials: true,
 }));
+
+app.use("/api", (_req, res, next) => {
+  res.header("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.header("Pragma", "no-cache");
+  res.header("Expires", "0");
+  next();
+});
 
 
 // 2. PARSER (Wajib SEBELUM rute)
