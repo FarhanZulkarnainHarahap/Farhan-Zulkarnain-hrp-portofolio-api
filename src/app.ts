@@ -21,27 +21,55 @@ const PORT = process.env.PORT || 8000;
 // Middleware
 const allowedOrigins = [
   'https://farhanzulkarnainhrp.com',
-  'https://www.farhanzulkarnainhrp.com', // Tambahkan yang pakai www                // Tambahkan ini juga supaya di lokal tetap bisa jalan
+  'https://www.farhanzulkarnainhrp.com',
+  'http://localhost:3000',
+  'http://localhost:3100',
+  'http://localhost:3200',
 ];
 
+const corsOptions: cors.CorsOptions = {
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(null, false);
+  },
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Authorization",
+    "Content-Type",
+    "Accept",
+    "X-Requested-With",
+    "X-CSRF-Token",
+  ],
+  credentials: true,
+};
+
 // 1. CORS
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Izinkan jika origin ada di daftar atau jika tidak ada origin (seperti aplikasi mobile/postman)
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
 
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+    res.header(
+      "Access-Control-Allow-Headers",
+      req.headers["access-control-request-headers"] || "Authorization,Content-Type,Accept,X-Requested-With,X-CSRF-Token"
+    );
+  }
 
+  if (req.method === "OPTIONS") {
+    res.sendStatus(204);
+    return;
+  }
 
+  next();
+});
+
+app.use(cors(corsOptions));
 
 
 // 2. PARSER (Wajib SEBELUM rute)

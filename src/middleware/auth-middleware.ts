@@ -3,9 +3,13 @@ import jwt from 'jsonwebtoken';
 import { CustomJwtPayload } from "../types/express";
 
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
-  const accessToken = req.cookies.accessToken;
+  const bearerToken = req.headers.authorization?.startsWith("Bearer ")
+    ? req.headers.authorization.slice(7)
+    : undefined;
+  const accessToken = req.cookies.accessToken || bearerToken;
+
   if (!accessToken) {
-    res.status(401).json({ message: "Unauthorized: Token not found" });
+    res.status(401).json({ success: false, error: "Unauthorized: Token not found" });
     return;
   }
 
@@ -15,14 +19,14 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
       process.env.JWT_SECRET!
     ) as CustomJwtPayload;
     if (!payload) {
-      res.status(401).json({ message: "Token verification failed" });
+      res.status(401).json({ success: false, error: "Token verification failed" });
       return;
     }
     // Optional: kamu bisa validasi `provider` kalau mau
     req.user = payload;
     next();
   } catch (error) {
-    res.status(403).json({ message: "Invalid token" });
+    res.status(403).json({ success: false, error: "Invalid token" });
   }
 }
 
@@ -35,6 +39,6 @@ export function roleGuard(...roles: string[]) {
       return;
     }
 
-    res.status(403).json({ message: "Unauthorized access" });
+    res.status(403).json({ success: false, error: "Unauthorized access" });
   };
 };
