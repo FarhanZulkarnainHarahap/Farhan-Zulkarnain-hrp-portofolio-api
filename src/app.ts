@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
-import express, { Request, Response, Application } from "express";
+import express, { Request, Response, Application, NextFunction } from "express";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import multer from 'multer';
                 
 // Import routes
 import userRoutes from './routers/userRoutes';
@@ -54,6 +55,16 @@ app.use('/api/experiences', experienceRoutes);
 app.use('/api/portofolios', portfolioRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/contact', contactRoutes);
+
+app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  if (multer.MulterError && error instanceof multer.MulterError) {
+    res.status(400).json({ success: false, error: error.message });
+    return;
+  }
+
+  const errorMessage = error instanceof Error ? error.message : "Internal server error";
+  res.status(500).json({ success: false, error: errorMessage });
+});
 
 
 // Health check
