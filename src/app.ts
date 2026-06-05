@@ -19,23 +19,12 @@ const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 // Middleware
-const allowedOrigins = [
-  process.env.FRONTEND_URL_PRODUCT,
-  process.env.FRONTEND_URL_DEVELOPMENT,
-]
-  .flatMap((origin) => origin?.split(",") ?? [])
-  .map((origin) => origin.trim().replace(/\/$/, ""))
-  .filter(Boolean);
-
-const isAllowedOrigin = (origin?: string) => {
-  if (!origin) return true;
-
-  return allowedOrigins.includes(origin.replace(/\/$/, ""));
-};
-
 const corsOptions: cors.CorsOptions = {
   origin(origin, callback) {
-    if (isAllowedOrigin(origin)) {
+    if (
+      !origin ||
+      origin.replace(/\/$/, "") === process.env.FRONTEND_URL_PRODUCTION?.replace(/\/$/, "")
+    ) {
       callback(null, true);
       return;
     }
@@ -57,7 +46,10 @@ const corsOptions: cors.CorsOptions = {
 app.use((req, res, next) => {
   const origin = req.headers.origin;
 
-  if (origin && isAllowedOrigin(origin)) {
+  if (
+    origin &&
+    origin.replace(/\/$/, "") === process.env.FRONTEND_URL_PRODUCTION?.replace(/\/$/, "")
+  ) {
     res.header("Access-Control-Allow-Origin", origin);
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
