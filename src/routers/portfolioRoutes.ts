@@ -1,15 +1,20 @@
-import { Router } from 'express';
+import express from 'express';
 import * as porto from '../controllers/portfolioController';
 import { verifyToken, roleGuard } from '../middleware/auth-middleware';
 import { uploadImage } from '../middleware/upload-middlware';
 
-const router = Router();
+const router = express.Router();
 
+router
+  .route('/')
+  .get(porto.getAllPortfolios)
+  .post(verifyToken, roleGuard('ADMIN'), uploadImage.single('image'), porto.createPortfolio);
 
-router.get('/', porto.getAllPortfolios);
-router.get('/portofolios/:id', porto.getPortfolioById);
-router.post('/',verifyToken, roleGuard('ADMIN'), uploadImage.single('image'), porto.createPortfolio);
-router.put('/portofolios/:id',verifyToken, roleGuard('ADMIN'), uploadImage.single('image'), porto.updatePortfolio);
-router.delete('/:id', porto.deletePortfolio);
+router
+  .route('/portofolios/:id')
+  .get(porto.getPortfolioById)
+  .put(verifyToken, roleGuard('ADMIN'), uploadImage.single('image'), porto.updatePortfolio);
+
+router.route('/:id').delete(porto.deletePortfolio);
 
 export default router;

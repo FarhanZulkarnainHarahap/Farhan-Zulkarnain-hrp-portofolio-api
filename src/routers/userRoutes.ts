@@ -1,12 +1,16 @@
-import { Router } from 'express';
+import express from 'express';
 import {getProfile, updateProfile, getAllUsers } from '../controllers/user-Controller';
 import { verifyToken, roleGuard } from '../middleware/auth-middleware';
 
-const router = Router();
+const router = express.Router();
 
+router
+  .route('/profile')
+  .get(verifyToken, getProfile)
+  .put(verifyToken, updateProfile);
 
-router.get('/profile', verifyToken, getProfile);
-router.put('/profile', verifyToken, updateProfile);
-router.get('/users', verifyToken, roleGuard('ADMIN'), getAllUsers);
+router
+  .route('/users')
+  .get(verifyToken, roleGuard('ADMIN'), getAllUsers);
 
 export default router;

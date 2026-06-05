@@ -1,13 +1,16 @@
-import { Router } from 'express';
+import express from 'express';
 import * as skill from '../controllers/skillController';
 import { verifyToken, roleGuard } from '../middleware/auth-middleware';
 
-const router = Router();
+const router = express.Router();
 
-router.get('/', skill.getAllSkills);
+router
+  .route('/')
+  .get(skill.getAllSkills)
+  .post(verifyToken, roleGuard('ADMIN'), skill.createSkill);
 
-router.post('/', verifyToken, roleGuard('ADMIN'), skill.createSkill);
-
-router.delete('/:id', verifyToken, roleGuard('ADMIN'), skill.deleteSkill);
+router
+  .route('/:id')
+  .delete(verifyToken, roleGuard('ADMIN'), skill.deleteSkill);
 
 export default router;

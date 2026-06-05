@@ -42,26 +42,50 @@ export async function createDocument(req: Request, res: Response): Promise<void>
     const { name, category } = req.body;
     const file = req.file;
 
+    console.log("[documents:create] request received", {
+      body: { name, category },
+      user: req.user ? { id: req.user.id, role: req.user.role, email: req.user.email } : null,
+      file: file
+        ? {
+            originalname: file.originalname,
+            mimetype: file.mimetype,
+            size: file.size,
+            path: file.path,
+          }
+        : null,
+    });
+
     // 1. Validasi keberadaan file
     if (!file) {
+      console.log("[documents:create] rejected: missing file");
       res.status(400).json({ success: false, error: "File dokumen wajib diunggah" });
       return;
     }
 
+    console.log("[documents:create] creating preview");
     const previewUrl = await createDocumentPreview(file);
+    console.log("[documents:create] preview result", { hasPreviewUrl: Boolean(previewUrl) });
 
     // 2. Upload manual ke Cloudinary
     // Menggunakan resource_type: "raw" karena file berupa PDF/Doc
+    console.log("[documents:create] uploading raw document to Cloudinary");
     const result = await cloudinary.uploader.upload(file.path, {
       folder: "Documents",
       resource_type: "raw", 
+    });
+    console.log("[documents:create] Cloudinary upload complete", {
+      publicId: result.public_id,
+      secureUrl: result.secure_url,
+      bytes: result.bytes,
     });
 
     // 3. Hapus file fisik dari folder /tmp (server lokal) setelah upload berhasil
     // Sekarang hanya butuh 1 argumen karena menggunakan fs/promises
     await unlink(file.path);
+    console.log("[documents:create] temporary file removed", { path: file.path });
 
     // 4. Simpan ke Database via Prisma
+    console.log("[documents:create] saving document to database");
     const data = await prisma.document.create({
       data: {
         name,
@@ -72,8 +96,11 @@ export async function createDocument(req: Request, res: Response): Promise<void>
       },
     });
 
+    console.log("[documents:create] document created", { id: data.id });
     res.status(201).json({ success: true, data });
   } catch (error) {
+    console.error("[documents:create] failed", error);
+
     // Pastikan file dihapus dari /tmp meskipun upload ke Cloudinary gagal
     if (req.file) {
       await unlink(req.file.path).catch(() => {}); 

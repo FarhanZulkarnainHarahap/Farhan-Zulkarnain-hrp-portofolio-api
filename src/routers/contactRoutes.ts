@@ -4,6 +4,6 @@ import { sendContactMessage } from "../controllers/contactController";
 const router = express.Router();
 
 // Endpoint: POST /api/contact
-router.post("/", sendContactMessage);
+router.route("/").post(sendContactMessage);
 
 export default router;
