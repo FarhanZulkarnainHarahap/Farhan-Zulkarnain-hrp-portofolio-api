@@ -23,12 +23,8 @@ app.disable("etag");
 
 const allowedOrigins = new Set(
   [
-    process.env.FRONTEND_URL_DEVELOPMENT,
     process.env.FRONTEND_URL_PRODUCTION,
-    "http://localhost:3000",
-    "http://localhost:3100",
     "https://farhanzulkarnainhrp.com",
-    "https://www.farhanzulkarnainhrp.com",
   ]
     .flatMap((value) => value?.split(",") ?? [])
     .map((origin) => origin.trim().replace(/\/$/, ""))
