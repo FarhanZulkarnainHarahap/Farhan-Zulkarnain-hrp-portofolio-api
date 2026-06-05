@@ -1,8 +1,7 @@
 import dotenv from 'dotenv';
-import express, { Request, Response, Application, NextFunction } from "express";
-import cors, { CorsOptions } from 'cors';
+import express, { Request, Response, Application } from "express";
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import multer from 'multer';
                 
 // Import routes
 import userRoutes from './routers/userRoutes';
@@ -19,50 +18,30 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
-app.disable("etag");
-
-const allowedOrigins = new Set(
-  [
-    process.env.FRONTEND_URL_DEVELOPMENT,
-    process.env.FRONTEND_URL_PRODUCTION,
-    "https://farhanzulkarnainhrp.com",
-    "https://www.farhanzulkarnainhrp.com",
-  ]
-    .flatMap((value) => value?.split(",") ?? [])
-    .map((origin) => origin.trim().replace(/\/$/, ""))
-    .filter(Boolean)
-);
-
-const corsOptions: CorsOptions = {
-  origin(origin, callback) {
-    if (!origin || allowedOrigins.has(origin.replace(/\/$/, ""))) {
-      callback(null, true);
-      return;
-    }
-
-    callback(null, false);
-  },
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: [
-    "Authorization",
-    "Content-Type",
-    "Accept",
-    "X-Requested-With",
-    "X-CSRF-Token",
-  ],
-  credentials: true,
-};
+// Middleware
+const allowedOrigins = [
+  'https://farhanzulkarnainhrp.com',
+  'https://www.farhanzulkarnainhrp.com', // Tambahkan yang pakai www                // Tambahkan ini juga supaya di lokal tetap bisa jalan
+];
 
 // 1. CORS
-app.use(cors(corsOptions));
-app.options(/.*/, cors(corsOptions));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Izinkan jika origin ada di daftar atau jika tidak ada origin (seperti aplikasi mobile/postman)
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
-app.use("/api", (_req, res, next) => {
-  res.header("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-  res.header("Pragma", "no-cache");
-  res.header("Expires", "0");
-  next();
-});
+
+
 
 
 // 2. PARSER (Wajib SEBELUM rute)
@@ -77,16 +56,6 @@ app.use('/api/experiences', experienceRoutes);
 app.use('/api/portofolios', portfolioRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/contact', contactRoutes);
-
-app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
-  if (multer.MulterError && error instanceof multer.MulterError) {
-    res.status(400).json({ success: false, error: error.message });
-    return;
-  }
-
-  const errorMessage = error instanceof Error ? error.message : "Internal server error";
-  res.status(500).json({ success: false, error: errorMessage });
-});
 
 
 // Health check
