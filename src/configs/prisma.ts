@@ -4,8 +4,13 @@ import { PrismaClient } from "../../prisma/generated/prisma/client";
 import pkg from "pg";
 
 const { Pool } = pkg;
+const connectionString = process.env.DIRECT_URL?.replace(
+  /([?&])sslmode=(prefer|require|verify-ca)(?=&|$)/,
+  "$1sslmode=verify-full"
+);
+
 const pool = new Pool({
-  connectionString: process.env.DIRECT_URL,
+  connectionString,
 });
 
 const globalForPrisma = globalThis as unknown as {
