@@ -22,7 +22,7 @@ app.disable("etag");
 
 // 1. CORS
 app.use(cors({
-  origin: process.env.FRONTEND_URL_PRODUCTION?.replace("https://www.", "https://"),
+  origin: process.env.FRONTEND_URL_PRODUCTION,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: [
     "Authorization",
