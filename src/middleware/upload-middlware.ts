@@ -37,12 +37,16 @@ export const docUpload = multer({
   }),
   limits: { fileSize: 10 * 1024 * 1024 }, // Limit 10MB
   fileFilter: (req: any, file, cb) => {
+    const extension = path.extname(file.originalname).toLowerCase();
     const allowedTypes = [
       "application/pdf",
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/octet-stream",
     ];
-    if (allowedTypes.includes(file.mimetype)) {
+    const allowedExtensions = [".pdf", ".doc", ".docx"];
+
+    if (allowedTypes.includes(file.mimetype) && allowedExtensions.includes(extension)) {
       cb(null, true);
     } else {
       cb(new Error("Hanya diperbolehkan mengunggah dokumen (PDF/Word)!") as any, false);
