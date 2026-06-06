@@ -175,6 +175,11 @@ export async function updateDocument(req: Request, res: Response): Promise<void>
 export async function deleteDocument(req: Request, res: Response): Promise<void> {
   try {
     const { id } = req.params;
+
+    if (!id) {
+      res.status(400).json({ success: false, error: "ID dokumen wajib dikirim" });
+      return;
+    }
     
     await prisma.document.delete({
       where: { id: id as string }
@@ -182,6 +187,17 @@ export async function deleteDocument(req: Request, res: Response): Promise<void>
     
     res.status(200).json({ success: true, message: "Dokumen berhasil dihapus" });
   } catch (error) {
-    res.status(500).json({ success: false, error: "Gagal menghapus dokumen" });
+    const errorCode = typeof error === "object" && error !== null && "code" in error
+      ? String((error as { code?: unknown }).code)
+      : "";
+
+    if (errorCode === "P2025") {
+      res.status(404).json({ success: false, error: "Dokumen tidak ditemukan atau sudah terhapus" });
+      return;
+    }
+
+    console.error("[documents:delete] failed", error);
+    const errorMessage = error instanceof Error ? error.message : "Gagal menghapus dokumen";
+    res.status(500).json({ success: false, error: errorMessage });
   }
 }
