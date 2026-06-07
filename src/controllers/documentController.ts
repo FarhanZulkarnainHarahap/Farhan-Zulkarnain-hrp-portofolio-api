@@ -3,6 +3,49 @@ import { prisma } from '../configs/prisma';
 import cloudinary from '../configs/cloudinary';
 import { unlink } from 'fs/promises';
 
+const PREVIEW_TIMEOUT_MS = 8000;
+
+function isPdfFile(file: Express.Multer.File) {
+  const name = file.originalname.toLowerCase();
+  return file.mimetype === "application/pdf" || name.endsWith(".pdf");
+}
+
+async function createDocumentPreview(file: Express.Multer.File) {
+  if (!isPdfFile(file)) return null;
+
+  try {
+    const preview = await Promise.race([
+      cloudinary.uploader.upload(file.path, {
+        folder: "DocumentPreviews",
+        resource_type: "image",
+      }),
+      new Promise<null>((resolve) => {
+        setTimeout(() => resolve(null), PREVIEW_TIMEOUT_MS);
+      }),
+    ]);
+
+    if (!preview) return null;
+
+    return cloudinary.url(preview.public_id, {
+      secure: true,
+      resource_type: "image",
+      format: "jpg",
+      page: 1,
+      transformation: [
+        {
+          width: 900,
+          crop: "fit",
+          quality: "auto",
+          fetch_format: "auto",
+        },
+      ],
+    });
+  } catch (error) {
+    console.warn("Gagal membuat preview dokumen:", error);
+    return null;
+  }
+}
+
 export async function createDocument(req: Request, res: Response): Promise<void> {
   try {
     const { name, category } = req.body;
@@ -41,6 +84,10 @@ export async function createDocument(req: Request, res: Response): Promise<void>
       bytes: result.bytes,
     });
 
+    console.log("[documents:create] creating preview");
+    const previewUrl = await createDocumentPreview(file);
+    console.log("[documents:create] preview result", { hasPreviewUrl: Boolean(previewUrl) });
+
     // 3. Hapus file fisik dari folder /tmp (server lokal) setelah upload berhasil
     // Sekarang hanya butuh 1 argumen karena menggunakan fs/promises
     await unlink(file.path);
@@ -53,6 +100,7 @@ export async function createDocument(req: Request, res: Response): Promise<void>
         name,
         category,
         fileUrl: result.secure_url,
+        previewUrl,
         size: file.size
       },
     });
@@ -110,9 +158,10 @@ export async function updateDocument(req: Request, res: Response): Promise<void>
         folder: "Documents",
         resource_type: "raw",
       });
+      const previewUrl = await createDocumentPreview(req.file);
       await unlink(req.file.path);
       fileData.fileUrl = result.secure_url;
-      fileData.previewUrl = null;
+      fileData.previewUrl = previewUrl;
       fileData.size = req.file.size;
     }
 
