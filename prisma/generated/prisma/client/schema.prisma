@@ -65,13 +65,19 @@ model Experience {
 
 // ========== PORTFOLIO / PROJECTS ==========
 model Portfolio {
-  id          String   @id @default(uuid())
-  title       String
-  description String   @db.Text
-  imageUrl    String
-  demoUrl     String?
-  repoUrl     String?
-  createdAt   DateTime @default(now())
+  id           String   @id @default(uuid())
+  title        String
+  description  String   @db.Text
+  imageUrl     String
+  demoUrl      String?
+  repoUrl      String?
+  caseType     String?
+  caseProblem  String?  @db.Text
+  caseSolution String?  @db.Text
+  caseResult   String?  @db.Text
+  tags         String[] @default([])
+  features     String[] @default([])
+  createdAt    DateTime @default(now())
 }
 
 // ========== DOCUMENTS ==========

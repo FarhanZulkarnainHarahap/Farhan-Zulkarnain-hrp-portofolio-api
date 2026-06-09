@@ -163,6 +163,12 @@ exports.Prisma.PortfolioScalarFieldEnum = {
   imageUrl: 'imageUrl',
   demoUrl: 'demoUrl',
   repoUrl: 'repoUrl',
+  caseType: 'caseType',
+  caseProblem: 'caseProblem',
+  caseSolution: 'caseSolution',
+  caseResult: 'caseResult',
+  tags: 'tags',
+  features: 'features',
   createdAt: 'createdAt'
 };
 

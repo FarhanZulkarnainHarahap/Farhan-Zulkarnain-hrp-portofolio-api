@@ -1,0 +1,6 @@
+ALTER TABLE "Portfolio" ADD COLUMN "caseType" TEXT;
+ALTER TABLE "Portfolio" ADD COLUMN "caseProblem" TEXT;
+ALTER TABLE "Portfolio" ADD COLUMN "caseSolution" TEXT;
+ALTER TABLE "Portfolio" ADD COLUMN "caseResult" TEXT;
+ALTER TABLE "Portfolio" ADD COLUMN "tags" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];
+ALTER TABLE "Portfolio" ADD COLUMN "features" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];

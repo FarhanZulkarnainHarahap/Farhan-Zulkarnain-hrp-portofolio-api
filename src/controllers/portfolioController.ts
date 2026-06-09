@@ -3,10 +3,33 @@ import { prisma } from '../configs/prisma';
 import cloudinary from '../configs/cloudinary';
 import fs, { unlink } from 'fs/promises'; 
 
+const splitListValue = (value?: unknown): string[] => {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item).trim()).filter(Boolean);
+  }
+
+  if (typeof value !== "string") {
+    return [];
+  }
+
+  return value
+    .split(/[,|\n]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+};
+
+const optionalText = (value?: unknown): string | null => {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length ? trimmed : null;
+};
 
 export async function createPortfolio(req: Request, res: Response): Promise<void> {
   try {
-    const { title, description, demoUrl, repoUrl } = req.body;
+    const { title, description, demoUrl, repoUrl, caseType, caseProblem, caseSolution, caseResult, tags, features } = req.body;
     const file = req.file; // Karena pakai .single('image')
 
     if (!file) {
@@ -30,7 +53,13 @@ export async function createPortfolio(req: Request, res: Response): Promise<void
         imageUrl: result.secure_url,
         demoUrl: demoUrl || null,
         repoUrl: repoUrl || null,
-      },
+        caseType: optionalText(caseType),
+        caseProblem: optionalText(caseProblem),
+        caseSolution: optionalText(caseSolution),
+        caseResult: optionalText(caseResult),
+        tags: splitListValue(tags),
+        features: splitListValue(features),
+      } as any,
     });
 
     res.status(201).json({ success: true, data });
@@ -69,7 +98,7 @@ export async function getPortfolioById(req: Request, res: Response): Promise<voi
 export async function updatePortfolio(req: Request, res: Response): Promise<void> {
   try {
     const { id } = req.params;
-    const { title, description, demoUrl, repoUrl } = req.body;
+    const { title, description, demoUrl, repoUrl, caseType, caseProblem, caseSolution, caseResult, tags, features } = req.body;
     const file = req.file;
 
     // Gunakan objek literal biasa agar tidak bentrok dengan model lama di cache
@@ -78,6 +107,12 @@ export async function updatePortfolio(req: Request, res: Response): Promise<void
       description,
       demoUrl: demoUrl || null,
       repoUrl: repoUrl || null,
+      caseType: optionalText(caseType),
+      caseProblem: optionalText(caseProblem),
+      caseSolution: optionalText(caseSolution),
+      caseResult: optionalText(caseResult),
+      tags: splitListValue(tags),
+      features: splitListValue(features),
     };
 
     if (file) {

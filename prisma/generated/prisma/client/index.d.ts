@@ -4555,6 +4555,10 @@ export namespace Prisma {
     imageUrl: string | null
     demoUrl: string | null
     repoUrl: string | null
+    caseType: string | null
+    caseProblem: string | null
+    caseSolution: string | null
+    caseResult: string | null
     createdAt: Date | null
   }
 
@@ -4565,6 +4569,10 @@ export namespace Prisma {
     imageUrl: string | null
     demoUrl: string | null
     repoUrl: string | null
+    caseType: string | null
+    caseProblem: string | null
+    caseSolution: string | null
+    caseResult: string | null
     createdAt: Date | null
   }
 
@@ -4575,6 +4583,12 @@ export namespace Prisma {
     imageUrl: number
     demoUrl: number
     repoUrl: number
+    caseType: number
+    caseProblem: number
+    caseSolution: number
+    caseResult: number
+    tags: number
+    features: number
     createdAt: number
     _all: number
   }
@@ -4587,6 +4601,10 @@ export namespace Prisma {
     imageUrl?: true
     demoUrl?: true
     repoUrl?: true
+    caseType?: true
+    caseProblem?: true
+    caseSolution?: true
+    caseResult?: true
     createdAt?: true
   }
 
@@ -4597,6 +4615,10 @@ export namespace Prisma {
     imageUrl?: true
     demoUrl?: true
     repoUrl?: true
+    caseType?: true
+    caseProblem?: true
+    caseSolution?: true
+    caseResult?: true
     createdAt?: true
   }
 
@@ -4607,6 +4629,12 @@ export namespace Prisma {
     imageUrl?: true
     demoUrl?: true
     repoUrl?: true
+    caseType?: true
+    caseProblem?: true
+    caseSolution?: true
+    caseResult?: true
+    tags?: true
+    features?: true
     createdAt?: true
     _all?: true
   }
@@ -4690,6 +4718,12 @@ export namespace Prisma {
     imageUrl: string
     demoUrl: string | null
     repoUrl: string | null
+    caseType: string | null
+    caseProblem: string | null
+    caseSolution: string | null
+    caseResult: string | null
+    tags: string[]
+    features: string[]
     createdAt: Date
     _count: PortfolioCountAggregateOutputType | null
     _min: PortfolioMinAggregateOutputType | null
@@ -4717,6 +4751,12 @@ export namespace Prisma {
     imageUrl?: boolean
     demoUrl?: boolean
     repoUrl?: boolean
+    caseType?: boolean
+    caseProblem?: boolean
+    caseSolution?: boolean
+    caseResult?: boolean
+    tags?: boolean
+    features?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["portfolio"]>
 
@@ -4727,6 +4767,12 @@ export namespace Prisma {
     imageUrl?: boolean
     demoUrl?: boolean
     repoUrl?: boolean
+    caseType?: boolean
+    caseProblem?: boolean
+    caseSolution?: boolean
+    caseResult?: boolean
+    tags?: boolean
+    features?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["portfolio"]>
 
@@ -4737,6 +4783,12 @@ export namespace Prisma {
     imageUrl?: boolean
     demoUrl?: boolean
     repoUrl?: boolean
+    caseType?: boolean
+    caseProblem?: boolean
+    caseSolution?: boolean
+    caseResult?: boolean
+    tags?: boolean
+    features?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["portfolio"]>
 
@@ -4747,10 +4799,16 @@ export namespace Prisma {
     imageUrl?: boolean
     demoUrl?: boolean
     repoUrl?: boolean
+    caseType?: boolean
+    caseProblem?: boolean
+    caseSolution?: boolean
+    caseResult?: boolean
+    tags?: boolean
+    features?: boolean
     createdAt?: boolean
   }
 
-  export type PortfolioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "imageUrl" | "demoUrl" | "repoUrl" | "createdAt", ExtArgs["result"]["portfolio"]>
+  export type PortfolioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "imageUrl" | "demoUrl" | "repoUrl" | "caseType" | "caseProblem" | "caseSolution" | "caseResult" | "tags" | "features" | "createdAt", ExtArgs["result"]["portfolio"]>
 
   export type $PortfolioPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Portfolio"
@@ -4762,6 +4820,12 @@ export namespace Prisma {
       imageUrl: string
       demoUrl: string | null
       repoUrl: string | null
+      caseType: string | null
+      caseProblem: string | null
+      caseSolution: string | null
+      caseResult: string | null
+      tags: string[]
+      features: string[]
       createdAt: Date
     }, ExtArgs["result"]["portfolio"]>
     composites: {}
@@ -5192,6 +5256,12 @@ export namespace Prisma {
     readonly imageUrl: FieldRef<"Portfolio", 'String'>
     readonly demoUrl: FieldRef<"Portfolio", 'String'>
     readonly repoUrl: FieldRef<"Portfolio", 'String'>
+    readonly caseType: FieldRef<"Portfolio", 'String'>
+    readonly caseProblem: FieldRef<"Portfolio", 'String'>
+    readonly caseSolution: FieldRef<"Portfolio", 'String'>
+    readonly caseResult: FieldRef<"Portfolio", 'String'>
+    readonly tags: FieldRef<"Portfolio", 'String[]'>
+    readonly features: FieldRef<"Portfolio", 'String[]'>
     readonly createdAt: FieldRef<"Portfolio", 'DateTime'>
   }
     
@@ -7690,6 +7760,12 @@ export namespace Prisma {
     imageUrl: 'imageUrl',
     demoUrl: 'demoUrl',
     repoUrl: 'repoUrl',
+    caseType: 'caseType',
+    caseProblem: 'caseProblem',
+    caseSolution: 'caseSolution',
+    caseResult: 'caseResult',
+    tags: 'tags',
+    features: 'features',
     createdAt: 'createdAt'
   };
 
@@ -8071,6 +8147,12 @@ export namespace Prisma {
     imageUrl?: StringFilter<"Portfolio"> | string
     demoUrl?: StringNullableFilter<"Portfolio"> | string | null
     repoUrl?: StringNullableFilter<"Portfolio"> | string | null
+    caseType?: StringNullableFilter<"Portfolio"> | string | null
+    caseProblem?: StringNullableFilter<"Portfolio"> | string | null
+    caseSolution?: StringNullableFilter<"Portfolio"> | string | null
+    caseResult?: StringNullableFilter<"Portfolio"> | string | null
+    tags?: StringNullableListFilter<"Portfolio">
+    features?: StringNullableListFilter<"Portfolio">
     createdAt?: DateTimeFilter<"Portfolio"> | Date | string
   }
 
@@ -8081,6 +8163,12 @@ export namespace Prisma {
     imageUrl?: SortOrder
     demoUrl?: SortOrderInput | SortOrder
     repoUrl?: SortOrderInput | SortOrder
+    caseType?: SortOrderInput | SortOrder
+    caseProblem?: SortOrderInput | SortOrder
+    caseSolution?: SortOrderInput | SortOrder
+    caseResult?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    features?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -8094,6 +8182,12 @@ export namespace Prisma {
     imageUrl?: StringFilter<"Portfolio"> | string
     demoUrl?: StringNullableFilter<"Portfolio"> | string | null
     repoUrl?: StringNullableFilter<"Portfolio"> | string | null
+    caseType?: StringNullableFilter<"Portfolio"> | string | null
+    caseProblem?: StringNullableFilter<"Portfolio"> | string | null
+    caseSolution?: StringNullableFilter<"Portfolio"> | string | null
+    caseResult?: StringNullableFilter<"Portfolio"> | string | null
+    tags?: StringNullableListFilter<"Portfolio">
+    features?: StringNullableListFilter<"Portfolio">
     createdAt?: DateTimeFilter<"Portfolio"> | Date | string
   }, "id">
 
@@ -8104,6 +8198,12 @@ export namespace Prisma {
     imageUrl?: SortOrder
     demoUrl?: SortOrderInput | SortOrder
     repoUrl?: SortOrderInput | SortOrder
+    caseType?: SortOrderInput | SortOrder
+    caseProblem?: SortOrderInput | SortOrder
+    caseSolution?: SortOrderInput | SortOrder
+    caseResult?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    features?: SortOrder
     createdAt?: SortOrder
     _count?: PortfolioCountOrderByAggregateInput
     _max?: PortfolioMaxOrderByAggregateInput
@@ -8120,6 +8220,12 @@ export namespace Prisma {
     imageUrl?: StringWithAggregatesFilter<"Portfolio"> | string
     demoUrl?: StringNullableWithAggregatesFilter<"Portfolio"> | string | null
     repoUrl?: StringNullableWithAggregatesFilter<"Portfolio"> | string | null
+    caseType?: StringNullableWithAggregatesFilter<"Portfolio"> | string | null
+    caseProblem?: StringNullableWithAggregatesFilter<"Portfolio"> | string | null
+    caseSolution?: StringNullableWithAggregatesFilter<"Portfolio"> | string | null
+    caseResult?: StringNullableWithAggregatesFilter<"Portfolio"> | string | null
+    tags?: StringNullableListFilter<"Portfolio">
+    features?: StringNullableListFilter<"Portfolio">
     createdAt?: DateTimeWithAggregatesFilter<"Portfolio"> | Date | string
   }
 
@@ -8498,6 +8604,12 @@ export namespace Prisma {
     imageUrl: string
     demoUrl?: string | null
     repoUrl?: string | null
+    caseType?: string | null
+    caseProblem?: string | null
+    caseSolution?: string | null
+    caseResult?: string | null
+    tags?: PortfolioCreatetagsInput | string[]
+    features?: PortfolioCreatefeaturesInput | string[]
     createdAt?: Date | string
   }
 
@@ -8508,6 +8620,12 @@ export namespace Prisma {
     imageUrl: string
     demoUrl?: string | null
     repoUrl?: string | null
+    caseType?: string | null
+    caseProblem?: string | null
+    caseSolution?: string | null
+    caseResult?: string | null
+    tags?: PortfolioCreatetagsInput | string[]
+    features?: PortfolioCreatefeaturesInput | string[]
     createdAt?: Date | string
   }
 
@@ -8518,6 +8636,12 @@ export namespace Prisma {
     imageUrl?: StringFieldUpdateOperationsInput | string
     demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    caseType?: NullableStringFieldUpdateOperationsInput | string | null
+    caseProblem?: NullableStringFieldUpdateOperationsInput | string | null
+    caseSolution?: NullableStringFieldUpdateOperationsInput | string | null
+    caseResult?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: PortfolioUpdatetagsInput | string[]
+    features?: PortfolioUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8528,6 +8652,12 @@ export namespace Prisma {
     imageUrl?: StringFieldUpdateOperationsInput | string
     demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    caseType?: NullableStringFieldUpdateOperationsInput | string | null
+    caseProblem?: NullableStringFieldUpdateOperationsInput | string | null
+    caseSolution?: NullableStringFieldUpdateOperationsInput | string | null
+    caseResult?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: PortfolioUpdatetagsInput | string[]
+    features?: PortfolioUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8538,6 +8668,12 @@ export namespace Prisma {
     imageUrl: string
     demoUrl?: string | null
     repoUrl?: string | null
+    caseType?: string | null
+    caseProblem?: string | null
+    caseSolution?: string | null
+    caseResult?: string | null
+    tags?: PortfolioCreatetagsInput | string[]
+    features?: PortfolioCreatefeaturesInput | string[]
     createdAt?: Date | string
   }
 
@@ -8548,6 +8684,12 @@ export namespace Prisma {
     imageUrl?: StringFieldUpdateOperationsInput | string
     demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    caseType?: NullableStringFieldUpdateOperationsInput | string | null
+    caseProblem?: NullableStringFieldUpdateOperationsInput | string | null
+    caseSolution?: NullableStringFieldUpdateOperationsInput | string | null
+    caseResult?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: PortfolioUpdatetagsInput | string[]
+    features?: PortfolioUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -8558,6 +8700,12 @@ export namespace Prisma {
     imageUrl?: StringFieldUpdateOperationsInput | string
     demoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    caseType?: NullableStringFieldUpdateOperationsInput | string | null
+    caseProblem?: NullableStringFieldUpdateOperationsInput | string | null
+    caseSolution?: NullableStringFieldUpdateOperationsInput | string | null
+    caseResult?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: PortfolioUpdatetagsInput | string[]
+    features?: PortfolioUpdatefeaturesInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -9011,6 +9159,12 @@ export namespace Prisma {
     imageUrl?: SortOrder
     demoUrl?: SortOrder
     repoUrl?: SortOrder
+    caseType?: SortOrder
+    caseProblem?: SortOrder
+    caseSolution?: SortOrder
+    caseResult?: SortOrder
+    tags?: SortOrder
+    features?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -9021,6 +9175,10 @@ export namespace Prisma {
     imageUrl?: SortOrder
     demoUrl?: SortOrder
     repoUrl?: SortOrder
+    caseType?: SortOrder
+    caseProblem?: SortOrder
+    caseSolution?: SortOrder
+    caseResult?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -9031,6 +9189,10 @@ export namespace Prisma {
     imageUrl?: SortOrder
     demoUrl?: SortOrder
     repoUrl?: SortOrder
+    caseType?: SortOrder
+    caseProblem?: SortOrder
+    caseSolution?: SortOrder
+    caseResult?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -9139,6 +9301,24 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type PortfolioCreatetagsInput = {
+    set: string[]
+  }
+
+  export type PortfolioCreatefeaturesInput = {
+    set: string[]
+  }
+
+  export type PortfolioUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type PortfolioUpdatefeaturesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
