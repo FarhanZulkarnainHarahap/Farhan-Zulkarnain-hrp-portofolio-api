@@ -11,7 +11,7 @@ router
   .post(verifyToken, roleGuard('ADMIN'), uploadImage.single('image'), porto.createPortfolio);
 
 router
-  .route('/portofolios/:id')
+  .route('/:id')
   .get(porto.getPortfolioById)
   .put(verifyToken, roleGuard('ADMIN'), uploadImage.single('image'), porto.updatePortfolio);
 
